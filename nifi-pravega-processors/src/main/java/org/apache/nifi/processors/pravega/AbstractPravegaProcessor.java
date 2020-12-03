@@ -175,7 +175,9 @@ public abstract class AbstractPravegaProcessor extends AbstractSessionFactoryPro
             }
             else if(context.getProperty(PROP_KEYCLOAK_JSON).getValue() != null)
             {
-                clientBuilder.credentials(new PravegaKeycloakCredentialsFromString(context.getProperty(PROP_KEYCLOAK_JSON).getValue()));
+                String keycloak =  context.getProperty(PROP_KEYCLOAK_JSON).getValue().replaceAll("[\\n\\t ]", ""); // remove newlines, tabs, and spaces
+
+                clientBuilder.credentials(new PravegaKeycloakCredentials(keycloak));
                 clientConfig = clientBuilder.build();
             } else if(context.getProperty(PROP_KEYCLOAK_JSON).getValue() == null || context.getProperty(PROP_KEYCLOAK_JSON).getValue().isEmpty())
             {
